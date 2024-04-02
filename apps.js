@@ -1,76 +1,213 @@
-// Constructor function for Employee
-function Employee(ID, Full_Name, Department, level, img_url, Salary) {
-    this.ID = ID;
-    this.Full_Name = Full_Name;
-    this.Department = Department;
+// Employee constructor function
+function Employee(img_path, full_name, id, department, level, salary) {
+    this.img_path = img_path;
+    this.full_name = full_name;
+    this.id = id;
+    this.department = department;
     this.level = level;
-    this.img_url = img_url;
-    this.Salary = Salary;
+    this.salary = salary;
 }
 
-// Prototype method to calculate salary and net salary
-Employee.prototype.get_Salary = function () {
+// Method to calculate employee salary
+Employee.prototype.getSalary = function() {
     let salary = 0;
     if (this.level.toLowerCase() === 'senior') {
-        salary = Math.floor(Math.random() * (2000 - 1200 + 1)) + 1200;
+        salary = Math.floor(Math.random() * (2000 - 1500 + 1) + 1500);
     } else if (this.level.toLowerCase() === 'mid-senior') {
-        salary = Math.floor(Math.random() * (1500 - 1000 + 1)) + 1000;
+        salary = Math.floor(Math.random() * (1500 - 1000 + 1) + 1000);
     } else if (this.level.toLowerCase() === 'junior') {
-        salary = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;
+        salary = Math.floor(Math.random() * (1000 - 500 + 1) + 500);
     }
-    let net_salary = salary - (salary * (7.5 / 100));
+    let net_salary = salary - (salary * 7.5 / 100);
     return { salary, net_salary };
-};
+}
 
-// Prototype method to render employee information in a table
-Employee.prototype.render = function () {
-    let salaryInfo = this.get_Salary();
-    /*let tableRow = `
-        <tr>
-            <td>${this.ID}</td>
-            <td>${this.Full_Name}</td>
-            <td>${this.Department}</td>
-            <td>${this.level}</td>
-            <td>${salaryInfo.salary}</td>
-            <td>${salaryInfo.net_salary}</td>
-        </tr>`;
-    document.write(tableRow);*/
-    document.write(`Employee ID : ${this.ID} <br>Full Name : ${this.Full_Name}<br>Department : 
-    ${this.Department}<br>Level : ${this.level}<br> Salary : ${salaryInfo.salary} <br>
-      Net-Salary : ${salaryInfo.net_salary}<br><hr>`);
-};
+// Method to generate employee ID
+Employee.prototype.getID = function() {
+    let id = '';
+    for (let i = 0; i < 4; i++) {
+        id += Math.floor(Math.random() * 10);
+    }
+    return id;
+}
 
-/*let employees = [
-    new Employee(1000, 'Ghazi Samer', 'Administration', 'Senior'),
-    new Employee(1001, 'Lana Ali', 'Finance', 'Senior'),
-    new Employee(1002, 'Tamara Ayoub', 'Marketing', 'Senior'),
-    new Employee(1003, 'Safi Walid', 'Administration', 'Mid-Senior'),
-    new Employee(1004, 'Omar Zaid', 'Development', 'Senior'),
-    new Employee(1005, 'Rana Saleh', 'Development', 'Junior'),
-    new Employee(1006, 'Hadi Ahmad', 'Finance', 'Mid-Senior')
-];*/
+// Method to display employee information
+Employee.prototype.display = function() {
+    let main = document.getElementById('main');
+    let departmentDiv = document.getElementById(this.department.toLowerCase() + '-div');
+
+    // Create department div if it doesn't exist
+    if (!departmentDiv) {
+        departmentDiv = document.createElement('div');
+        departmentDiv.id = this.department.toLowerCase() + '-div';
+        departmentDiv.classList.add('department');
+        main.appendChild(departmentDiv);
+
+        // Create department header
+        let departmentHeader = document.createElement('h2');
+        departmentHeader.textContent = this.department;
+        departmentDiv.appendChild(departmentHeader);
+    }
+
+    // Employee card container
+    let cardContainer = document.createElement('div');
+    cardContainer.classList.add('employee-card');
+
+    // Employee image
+    let img = document.createElement('img');
+    img.src = this.img_path;
+    img.width = "50";
+    img.height = "50";
+
+    // Employee name
+    let name = document.createElement('p');
+    name.textContent = `Name: ${this.full_name}`;
+
+    // Employee department
+    let departmentInfo = document.createElement('p');
+    departmentInfo.textContent = `Department: ${this.department}`;
+
+    // Employee level
+    let level = document.createElement('p');
+    level.textContent = `Level: ${this.level}`;
+
+    // Employee salary
+    let salary = document.createElement('p');
+    let salaries = this.getSalary();
+    salary.textContent = `Net Salary: ${salaries.net_salary}`;
+
+    // Employee ID
+    let id = document.createElement('p');
+    id.textContent = `ID: ${this.getID()}`;
+
+    // Append all elements to card container
+    cardContainer.append(img, name, departmentInfo, level, salary, id);
+
+    // Append card container to department div
+    departmentDiv.appendChild(cardContainer);
+}
+
+// Form submission event listener
+let form = document.getElementById('form');
+form.addEventListener('submit', addNewCardHandler);
+
+// Function to handle form submission
+function addNewCardHandler(event) {
+    event.preventDefault();
+
+    let img = event.target.img.value;
+    let name = event.target.fullname.value;
+    let department = event.target.department.value;
+    let level = event.target.level.value;
+
+    let obj = new Employee(img, name, '', department, level, '');
+    obj.display();
+}
+
+// Dynamically add styles
+(function addStyles() {
+    let styles = `
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f0f0f0;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    header {
+        background-color: #3498db;
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    footer {
+        background-color: rgb(52,73,94);
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+
+    /* Change the background color of the form */
+    form {
+       background-color:rgba(52, 73, 94, 0.22);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .department {
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
 
-  let first  =new Employee(1000, 'Ghazi Samer', 'Administration', 'Senior');
-  let second  =new Employee(1001, 'Lana Ali', 'Finance', 'Senior');
-  let third  =new Employee(1002, 'Tamara Ayoub', 'Marketing', 'Senior');
-  let fourth  =new Employee(1003, 'Safi Walid', 'Administration', 'Mid-Senior');
-  let fifth  =new Employee(1004, 'Omar Zaid', 'Development', 'Senior');
-  let sixth  =new Employee(1005, 'Rana Saleh', 'Development', 'Junior');
-  let seventh  =new Employee(1006, 'Hadi Ahmad', 'Finance', 'Mid-Senior');
+    .employee-card {
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        margin-top: 10px;
+        width: 300px;
+        
+    }
 
-//document.write('<table border="1">');
-//document.write('<tr><th>ID</th><th>Full Name</th><th>Department</th><th>Level</th><th>Salary</th><th>Net Salary</th></tr>');
+    .employee-card img {
+        border-radius: 50%;
+        margin-right: 10px;
+    }
 
-/*employees.forEach(function (employee) {
-    employee.render();
-});
+    .employee-card p {
+        margin: 5px 0;
+    }
 
-document.write('</table>');*/
-first.render();
-second.render();
-third.render();
-fourth.render();
-fifth.render();
-sixth.render();
-seventh.render();
+    h2 {
+        font-size: 24px;
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+    `;
+
+    // Create <style> element and append to <head>
+    let styleElement = document.createElement('style');
+    styleElement.textContent = styles;
+    document.head.appendChild(styleElement);
+})();
+
+
+
+
+
+
+
+/* #administration-div {
+        background-color: rgba(144, 238, 144, 0.3); 
+    }
+    
+    #marketing-div {
+        background-color: rgba(173, 216, 230, 0.3); 
+    }
+
+    #finance-div {
+        background-color: rgba(255, 182, 193, 0.3); 
+    }
+
+    #development-div {
+        background-color: rgba(255, 204, 153, 0.3); 
+    } */
