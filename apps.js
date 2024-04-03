@@ -1,4 +1,4 @@
-// Employee constructor function
+//constructor 
 function Employee(img_path, full_name, id, department, level, salary) {
     this.img_path = img_path;
     this.full_name = full_name;
@@ -8,7 +8,7 @@ function Employee(img_path, full_name, id, department, level, salary) {
     this.salary = salary;
 }
 
-// Method to calculate employee salary
+//calculate salary
 Employee.prototype.getSalary = function() {
     let salary = 0;
     if (this.level.toLowerCase() === 'senior') {
@@ -22,7 +22,7 @@ Employee.prototype.getSalary = function() {
     return { salary, net_salary };
 }
 
-// Method to generate employee ID
+//ID
 Employee.prototype.getID = function() {
     let id = '';
     for (let i = 0; i < 4; i++) {
@@ -31,7 +31,7 @@ Employee.prototype.getID = function() {
     return id;
 }
 
-// Method to display employee information
+//display information
 Employee.prototype.display = function() {
     let main = document.getElementById('main');
     let departmentDiv = document.getElementById(this.department.toLowerCase() + '-div');
@@ -49,49 +49,49 @@ Employee.prototype.display = function() {
         departmentDiv.appendChild(departmentHeader);
     }
 
-    // Employee card container
+ 
     let cardContainer = document.createElement('div');
     cardContainer.classList.add('employee-card');
 
-    // Employee image
+  
     let img = document.createElement('img');
     img.src = this.img_path;
     img.width = "50";
     img.height = "50";
 
-    // Employee name
+  
     let name = document.createElement('p');
     name.textContent = `Name: ${this.full_name}`;
 
-    // Employee department
+  
     let departmentInfo = document.createElement('p');
     departmentInfo.textContent = `Department: ${this.department}`;
 
-    // Employee level
+
     let level = document.createElement('p');
     level.textContent = `Level: ${this.level}`;
 
-    // Employee salary
-    let salary = document.createElement('p');
-    let salaries = this.getSalary();
-    salary.textContent = `Net Salary: ${salaries.net_salary}`;
 
-    // Employee ID
+    let salary = document.createElement('p');
+    let salaries = this.getSalary().net_salary;
+    console.log(salaries);
+    salary.textContent = `Net Salary: ${salaries}`;
+
+
     let id = document.createElement('p');
     id.textContent = `ID: ${this.getID()}`;
 
-    // Append all elements to card container
+
     cardContainer.append(img, name, departmentInfo, level, salary, id);
 
-    // Append card container to department div
     departmentDiv.appendChild(cardContainer);
 }
 
-// Form submission event listener
+//...............................................................................
 let form = document.getElementById('form');
 form.addEventListener('submit', addNewCardHandler);
 
-// Function to handle form submission
+
 function addNewCardHandler(event) {
     event.preventDefault();
 
@@ -99,11 +99,17 @@ function addNewCardHandler(event) {
     let name = event.target.fullname.value;
     let department = event.target.department.value;
     let level = event.target.level.value;
+    let id=event.target.id.value;
+    let salary=event.target.salaries;
 
-    let obj = new Employee(img, name, '', department, level, '');
+
+    let obj = new Employee(img, name,id, department, level,salary);
     obj.display();
+   
+    
 }
 
+var arr=[];
 // Dynamically add styles
 (function addStyles() {
     let styles = `
@@ -127,9 +133,11 @@ function addNewCardHandler(event) {
         color: white;
         text-align: center;
         padding: 10px 0;
-        position: fixed;
+        position: static;
         bottom: 0;
         width: 100%;
+        margin-top: 100px;
+        margin-bottom:0px; 
     }
 
     /* Change the background color of the form */
