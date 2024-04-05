@@ -87,6 +87,7 @@ Employee.prototype.display = function() {
     departmentDiv.appendChild(cardContainer);
 }
 
+let arr=[];
 // Form submission event listener
 let form = document.getElementById('form');
 form.addEventListener('submit', addNewCardHandler);
@@ -99,9 +100,20 @@ function addNewCardHandler(event) {
     let name = event.target.fullname.value;
     let department = event.target.department.value;
     let level = event.target.level.value;
+    let id=Employee.prototype.getID();
 
-    let obj = new Employee(img, name, '', department, level, '');
+    let salary=Employee.prototype.getSalary().net_salary;
+    let obj = new Employee(img, name, id, department, level,salary);
+    localStorage.setItem(id,JSON.stringify(obj));
     obj.display();
+    
+
+
+         
+    
+//....................................Storing data..........................................................................
+
+    
 }
 
 // Dynamically add styles
@@ -184,7 +196,7 @@ function addNewCardHandler(event) {
     }
     `;
 
-    // Create <style> element and append to <head>
+    // Create <style> element and append to head
     let styleElement = document.createElement('style');
     styleElement.textContent = styles;
     document.head.appendChild(styleElement);
