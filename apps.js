@@ -8,6 +8,8 @@ function Employee(img_path, full_name, id, department, level, salary) {
     this.salary = salary;
 }
 
+
+
 //calculate salary
 Employee.prototype.getSalary = function() {
     let salary = 0;
@@ -22,6 +24,8 @@ Employee.prototype.getSalary = function() {
     return { salary, net_salary };
 }
 
+
+
 //ID
 Employee.prototype.getID = function() {
     let id = '';
@@ -30,6 +34,8 @@ Employee.prototype.getID = function() {
     }
     return id;
 }
+
+
 
 //display information
 Employee.prototype.display = function() {
@@ -87,7 +93,9 @@ Employee.prototype.display = function() {
     departmentDiv.appendChild(cardContainer);
 }
 
-//...............................................................................
+//................................Submiting.............................................................................
+
+
 let form = document.getElementById('form');
 form.addEventListener('submit', addNewCardHandler);
 
@@ -99,17 +107,28 @@ function addNewCardHandler(event) {
     let name = event.target.fullname.value;
     let department = event.target.department.value;
     let level = event.target.level.value;
-    let id=event.target.id.value;
-    let salary=event.target.salaries;
+    let id = Employee.prototype.getID();
 
+    let obj = new Employee(img, name, id, department, level);
 
-    let obj = new Employee(img, name,id, department, level,salary);
+    // Calculate salary synchronously
+    let salaryData = obj.getSalary();
+    let salary = salaryData.net_salary;
+
+    // Update obj with calculated salary
+    obj.salary = salary;
+
     obj.display();
-   
-    
+//............................................Storing data..................................................................
+    // Storing Data
+  /*  arr.push(obj);
+    localStorage.setItem('Employee', JSON.stringify(arr));*/
 }
 
-var arr=[];
+
+
+
+//var arr=[];
 // Dynamically add styles
 (function addStyles() {
     let styles = `
@@ -192,13 +211,11 @@ var arr=[];
     }
     `;
 
-    // Create <style> element and append to <head>
+    // Create <style> element and append to head
     let styleElement = document.createElement('style');
     styleElement.textContent = styles;
     document.head.appendChild(styleElement);
 })();
-
-
 
 
 
