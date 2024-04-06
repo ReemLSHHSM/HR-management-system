@@ -11,8 +11,9 @@ function Employee(img_path, full_name, id, department, level, salary) {
 
 
 //calculate salary
-Employee.prototype.getSalary = function() {
+Employee.prototype.getSalary = function(level) {
     let salary = 0;
+    level=this.level
     if (this.level.toLowerCase() === 'senior') {
         salary = Math.floor(Math.random() * (2000 - 1500 + 1) + 1500);
     } else if (this.level.toLowerCase() === 'mid-senior') {
@@ -56,31 +57,47 @@ Employee.prototype.display = function() {
     let cardContainer = document.createElement('div');
     cardContainer.classList.add('employee-card');
   
+
+
     let img = document.createElement('img');
     img.src = this.img_path;
     img.width = "50";
     img.height = "50";
   
+
+
     let name = document.createElement('p');
     name.textContent = `Name: ${this.full_name}`;
   
+
+
     let departmentInfo = document.createElement('p');
     departmentInfo.textContent = `Department: ${this.department}`;
+
+
     let level = document.createElement('p');
     level.textContent = `Level: ${this.level}`;
+
+
     let salary = document.createElement('p');
-    let salaries = this.getSalary().net_salary;
-    console.log(salaries);
+    let salaries = this.getSalary(level).net_salary;
+    //console.log(salaries);
     salary.textContent = `Net Salary: ${salaries}`;
+
     let id = document.createElement('p');
     id.textContent = `ID: ${this.getID()}`;
+
+
     cardContainer.append(img, name, departmentInfo, level, salary, id);
+
+
     departmentDiv.appendChild(cardContainer);
 }
 
 //...............................................................................
 //................................Submiting.............................................................................
 
+let arr=[];
 
 let form = document.getElementById('form');
 form.addEventListener('submit', addNewCardHandler);
@@ -91,22 +108,21 @@ function addNewCardHandler(event) {
     let name = event.target.fullname.value;
     let department = event.target.department.value;
     let level = event.target.level.value;
+    let id=Employee.prototype.getID();
+   
 
-    // Calculate salary synchronously
-    let obj = new Employee(img, name, "", department, level, "");
-    let salaryData = obj.getSalary();
+    let obj = new Employee(img, name,id, department, level);
+
+
+    let salaryData = obj.getSalary(obj.level);
     let salary = salaryData.net_salary;
-
-    // Generate ID
-    let id = obj.getID();
-
-    // Create new Employee instance with extracted values
+     obj.salary=salary
     let newObj = new Employee(img, name, id, department, level, salary);
     newObj.display();
 
-    // Storing Data (if required)
+    
     // arr.push(newObj);
-    localStorage.setItem(`${newObj.id}`, JSON.stringify(obj));
+    localStorage.setItem(`${newObj.department}`, JSON.stringify(newObj));
 }
 
 
