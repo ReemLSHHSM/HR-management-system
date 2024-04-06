@@ -122,7 +122,7 @@ function addNewCardHandler(event) {
 
     
     // arr.push(newObj);
-    localStorage.setItem(`${newObj.department}`, JSON.stringify(newObj));
+    localStorage.setItem(`${newObj.id}`, JSON.stringify(newObj));
 }
 
 
