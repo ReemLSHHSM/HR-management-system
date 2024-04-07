@@ -11,9 +11,9 @@ function Employee(img_path, full_name, id, department, level, salary) {
 
 
 //calculate salary
-Employee.prototype.getSalary = function(level) {
+Employee.prototype.getSalary = function (level) {
     let salary = 0;
-    level=this.level
+    level = this.level
     if (this.level.toLowerCase() === 'senior') {
         salary = Math.floor(Math.random() * (2000 - 1500 + 1) + 1500);
     } else if (this.level.toLowerCase() === 'mid-senior') {
@@ -28,7 +28,7 @@ Employee.prototype.getSalary = function(level) {
 
 
 //ID
-Employee.prototype.getID = function() {
+Employee.prototype.getID = function () {
     let id = '';
     for (let i = 0; i < 4; i++) {
         id += Math.floor(Math.random() * 10);
@@ -39,7 +39,7 @@ Employee.prototype.getID = function() {
 
 
 //display information
-Employee.prototype.display = function() {
+Employee.prototype.display = function () {
     let main = document.getElementById('main');
     let departmentDiv = document.getElementById(this.department.toLowerCase() + '-div');
     // Create department div if it doesn't exist
@@ -53,22 +53,22 @@ Employee.prototype.display = function() {
         departmentHeader.textContent = this.department;
         departmentDiv.appendChild(departmentHeader);
     }
- 
+
     let cardContainer = document.createElement('div');
     cardContainer.classList.add('employee-card');
-  
+
 
 
     let img = document.createElement('img');
     img.src = this.img_path;
     img.width = "50";
     img.height = "50";
-  
+
 
 
     let name = document.createElement('p');
     name.textContent = `Name: ${this.full_name}`;
-  
+
 
 
     let departmentInfo = document.createElement('p');
@@ -97,7 +97,7 @@ Employee.prototype.display = function() {
 //...............................................................................
 //................................Submiting.............................................................................
 
-let arr=[];
+let arr = [];
 
 let form = document.getElementById('form');
 form.addEventListener('submit', addNewCardHandler);
@@ -108,19 +108,19 @@ function addNewCardHandler(event) {
     let name = event.target.fullname.value;
     let department = event.target.department.value;
     let level = event.target.level.value;
-    let id=Employee.prototype.getID();
-   
+    let id = Employee.prototype.getID();
 
-    let obj = new Employee(img, name,id, department, level);
+
+    let obj = new Employee(img, name, id, department, level);
 
 
     let salaryData = obj.getSalary(obj.level);
     let salary = salaryData.net_salary;
-     obj.salary=salary
+    obj.salary = salary
     let newObj = new Employee(img, name, id, department, level, salary);
     newObj.display();
 
-    
+
     // arr.push(newObj);
     localStorage.setItem(`${newObj.id}`, JSON.stringify(newObj));
 }
@@ -223,3 +223,4 @@ function addNewCardHandler(event) {
     #development-div {
         background-color: rgba(255, 204, 153, 0.3); 
     } */
+    
