@@ -53,14 +53,52 @@ Employee.prototype.display = function() {
         departmentHeader.textContent = this.department;
         departmentDiv.appendChild(departmentHeader);
     }
+
+
+    let cardContainer = document.createElement('div');
+    cardContainer.classList.add('employee-card');
+
+
+
  
     let cardContainer = document.createElement('div');
     cardContainer.classList.add('employee-card');
   
+
     let img = document.createElement('img');
     img.src = this.img_path;
     img.width = "50";
     img.height = "50";
+
+
+
+
+    let name = document.createElement('p');
+    name.textContent = `Name: ${this.full_name}`;
+
+
+
+    let departmentInfo = document.createElement('p');
+    departmentInfo.textContent = `Department: ${this.department}`;
+
+
+    let level = document.createElement('p');
+    level.textContent = `Level: ${this.level}`;
+
+
+    let salary = document.createElement('p');
+    let salaries = this.getSalary(level).net_salary;
+    //console.log(salaries);
+    salary.textContent = `Net Salary: ${salaries}`;
+
+    let id = document.createElement('p');
+    id.textContent = `ID: ${this.getID()}`;
+
+
+    cardContainer.append(img, name, departmentInfo, level, salary, id);
+
+
+
   
     let name = document.createElement('p');
     name.textContent = `Name: ${this.full_name}`;
@@ -76,11 +114,14 @@ Employee.prototype.display = function() {
     let id = document.createElement('p');
     id.textContent = `ID: ${this.getID()}`;
     cardContainer.append(img, name, departmentInfo, level, salary, id);
+
     departmentDiv.appendChild(cardContainer);
 }
 
 //...............................................................................
 //................................Submiting.............................................................................
+
+
 
 
 let form = document.getElementById('form');
@@ -108,6 +149,14 @@ function addNewCardHandler(event) {
     obj.display();
 
 
+    
+    localStorage.setItem(`${obj.id}`, JSON.stringify(obj));
+}
+
+
+
+
+
 //............................................Storing data..................................................................
   
    
@@ -119,6 +168,7 @@ function addNewCardHandler(event) {
 
 
 //var arr=[];
+
 // Dynamically add styles
 (function addStyles() {
     let styles = `
@@ -190,6 +240,10 @@ function addNewCardHandler(event) {
     }
     `;
 
+
+
+
+
     // Create <style> element and append to head
     let styleElement = document.createElement('style');
     styleElement.textContent = styles;
@@ -213,3 +267,4 @@ function addNewCardHandler(event) {
     #development-div {
         background-color: rgba(255, 204, 153, 0.3); 
     } */
+    
