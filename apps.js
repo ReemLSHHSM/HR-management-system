@@ -13,7 +13,7 @@ function Employee(img_path, full_name, id, department, level, salary) {
 //calculate salary
 Employee.prototype.getSalary = function(level) {
     let salary = 0;
-    level = this.level
+    level = this.level;
     if (level.toLowerCase() === 'senior') {
         salary = Math.floor(Math.random() * (2000 - 1500 + 1) + 1500);
     } else if (level.toLowerCase() === 'mid-senior') {
@@ -124,7 +124,7 @@ function addNewCardHandler(event) {
     obj.display();
 
 
-    // arr.push(obj);
+    
     localStorage.setItem(`${obj.id}`, JSON.stringify(obj));
 }
 
@@ -202,7 +202,7 @@ function addNewCardHandler(event) {
     }
     `;
 
-    
+
     // Create <style> element and append to head
     let styleElement = document.createElement('style');
     styleElement.textContent = styles;
