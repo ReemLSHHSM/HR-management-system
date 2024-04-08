@@ -189,7 +189,7 @@ function addNewCardHandler(event) {
     .employee-card p {
         margin: 5px 0;
     }
-    h2 {
+    #h2 {
         font-size: 24px;
         margin-top: 0;
         margin-bottom: 10px;
