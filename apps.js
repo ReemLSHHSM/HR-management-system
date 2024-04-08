@@ -11,14 +11,14 @@ function Employee(img_path, full_name, id, department, level, salary) {
 
 
 //calculate salary
-Employee.prototype.getSalary = function (level) {
+Employee.prototype.getSalary = function(level) {
     let salary = 0;
     level = this.level
-    if (this.level.toLowerCase() === 'senior') {
+    if (level.toLowerCase() === 'senior') {
         salary = Math.floor(Math.random() * (2000 - 1500 + 1) + 1500);
-    } else if (this.level.toLowerCase() === 'mid-senior') {
+    } else if (level.toLowerCase() === 'mid-senior') {
         salary = Math.floor(Math.random() * (1500 - 1000 + 1) + 1000);
-    } else if (this.level.toLowerCase() === 'junior') {
+    } else if (level.toLowerCase() === 'junior') {
         salary = Math.floor(Math.random() * (1000 - 500 + 1) + 500);
     }
     let net_salary = salary - (salary * 7.5 / 100);
@@ -28,7 +28,7 @@ Employee.prototype.getSalary = function (level) {
 
 
 //ID
-Employee.prototype.getID = function () {
+Employee.prototype.getID = function() {
     let id = '';
     for (let i = 0; i < 4; i++) {
         id += Math.floor(Math.random() * 10);
@@ -39,7 +39,7 @@ Employee.prototype.getID = function () {
 
 
 //display information
-Employee.prototype.display = function () {
+Employee.prototype.display = function() {
     let main = document.getElementById('main');
     let departmentDiv = document.getElementById(this.department.toLowerCase() + '-div');
     // Create department div if it doesn't exist
@@ -97,7 +97,7 @@ Employee.prototype.display = function () {
 //...............................................................................
 //................................Submiting.............................................................................
 
-let arr = [];
+
 
 let form = document.getElementById('form');
 form.addEventListener('submit', addNewCardHandler);
@@ -108,26 +108,29 @@ function addNewCardHandler(event) {
     let name = event.target.fullname.value;
     let department = event.target.department.value;
     let level = event.target.level.value;
+    let id1=event.target.id.value;
     let id = Employee.prototype.getID();
 
+    let obj = new Employee(img, name, id1, department, level);
 
-    let obj = new Employee(img, name, id, department, level);
-
-
-    let salaryData = obj.getSalary(obj.level);
+    // Calculate salary synchronously
+    let salaryData = obj.getSalary(level);
     let salary = salaryData.net_salary;
-    obj.salary = salary
-    let newObj = new Employee(img, name, id, department, level, salary);
-    newObj.display();
+
+    // Update obj with calculated salary
+    obj.salary = salary;
+
+   obj = new Employee(img, name,id, department, level,salary);
+    obj.display();
 
 
-    // arr.push(newObj);
-    localStorage.setItem(`${newObj.id}`, JSON.stringify(newObj));
+    // arr.push(obj);
+    localStorage.setItem(`${obj.id}`, JSON.stringify(obj));
 }
 
 
 
-//var arr=[];
+
 // Dynamically add styles
 (function addStyles() {
     let styles = `
@@ -189,7 +192,7 @@ function addNewCardHandler(event) {
     .employee-card p {
         margin: 5px 0;
     }
-    #h2 {
+    h2 {
         font-size: 24px;
         margin-top: 0;
         margin-bottom: 10px;
@@ -199,7 +202,7 @@ function addNewCardHandler(event) {
     }
     `;
 
-    // Create <style> element and append to <head>
+    
     // Create <style> element and append to head
     let styleElement = document.createElement('style');
     styleElement.textContent = styles;
