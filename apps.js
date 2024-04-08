@@ -54,15 +54,22 @@ Employee.prototype.display = function() {
         departmentDiv.appendChild(departmentHeader);
     }
 
+
     let cardContainer = document.createElement('div');
     cardContainer.classList.add('employee-card');
 
 
 
+ 
+    let cardContainer = document.createElement('div');
+    cardContainer.classList.add('employee-card');
+  
+
     let img = document.createElement('img');
     img.src = this.img_path;
     img.width = "50";
     img.height = "50";
+
 
 
 
@@ -91,11 +98,29 @@ Employee.prototype.display = function() {
     cardContainer.append(img, name, departmentInfo, level, salary, id);
 
 
+
+  
+    let name = document.createElement('p');
+    name.textContent = `Name: ${this.full_name}`;
+  
+    let departmentInfo = document.createElement('p');
+    departmentInfo.textContent = `Department: ${this.department}`;
+    let level = document.createElement('p');
+    level.textContent = `Level: ${this.level}`;
+    let salary = document.createElement('p');
+    let salaries = this.getSalary().net_salary;
+    console.log(salaries);
+    salary.textContent = `Net Salary: ${salaries}`;
+    let id = document.createElement('p');
+    id.textContent = `ID: ${this.getID()}`;
+    cardContainer.append(img, name, departmentInfo, level, salary, id);
+
     departmentDiv.appendChild(cardContainer);
 }
 
 //...............................................................................
 //................................Submiting.............................................................................
+
 
 
 
@@ -131,6 +156,19 @@ function addNewCardHandler(event) {
 
 
 
+
+//............................................Storing data..................................................................
+  
+   
+   localStorage.setItem(`${obj.id}`, JSON.stringify(obj));
+}
+
+
+
+
+
+//var arr=[];
+
 // Dynamically add styles
 (function addStyles() {
     let styles = `
@@ -160,7 +198,7 @@ function addNewCardHandler(event) {
     }
     /* Change the background color of the form */
     form {
-       background-color:rgba(52, 73, 94, 0.22);
+        background-color:rgba(52, 73, 94, 0.22);
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -201,6 +239,9 @@ function addNewCardHandler(event) {
         font-size: 16px;
     }
     `;
+
+
+
 
 
     // Create <style> element and append to head
