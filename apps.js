@@ -11,13 +11,14 @@ function Employee(img_path, full_name, id, department, level, salary) {
 
 
 //calculate salary
-Employee.prototype.getSalary = function() {
+Employee.prototype.getSalary = function(level) {
     let salary = 0;
-    if (this.level.toLowerCase() === 'senior') {
+    level = this.level;
+    if (level.toLowerCase() === 'senior') {
         salary = Math.floor(Math.random() * (2000 - 1500 + 1) + 1500);
-    } else if (this.level.toLowerCase() === 'mid-senior') {
+    } else if (level.toLowerCase() === 'mid-senior') {
         salary = Math.floor(Math.random() * (1500 - 1000 + 1) + 1000);
-    } else if (this.level.toLowerCase() === 'junior') {
+    } else if (level.toLowerCase() === 'junior') {
         salary = Math.floor(Math.random() * (1000 - 500 + 1) + 500);
     }
     let net_salary = salary - (salary * 7.5 / 100);
@@ -92,29 +93,28 @@ function addNewCardHandler(event) {
     let department = event.target.department.value;
     let level = event.target.level.value;
     let id1=event.target.id.value;
-    let salary1=event.target.salaries;
     let id = Employee.prototype.getID();
 
     let obj = new Employee(img, name, id1, department, level);
 
     // Calculate salary synchronously
-    let salaryData = obj.getSalary();
+    let salaryData = obj.getSalary(level);
     let salary = salaryData.net_salary;
 
     // Update obj with calculated salary
     obj.salary = salary;
 
-   obj = new Employee(img, name,id, department, level,salary1);
+   obj = new Employee(img, name,id, department, level,salary);
     obj.display();
 
 
 //............................................Storing data..................................................................
   
-   arr.push(obj);
-    localStorage.setItem('Employee', JSON.stringify(arr));
+   
+   localStorage.setItem(`${obj.id}`, JSON.stringify(obj));
 }
 
-var arr=[];
+
 
 
 
@@ -148,7 +148,7 @@ var arr=[];
     }
     /* Change the background color of the form */
     form {
-       background-color:rgba(52, 73, 94, 0.22);
+        background-color:rgba(52, 73, 94, 0.22);
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -190,7 +190,6 @@ var arr=[];
     }
     `;
 
-    // Create <style> element and append to <head>
     // Create <style> element and append to head
     let styleElement = document.createElement('style');
     styleElement.textContent = styles;
